@@ -24,6 +24,10 @@ namespace Core.Models {
     public class UsernameUserUniqueAttribute : ValidationAttribute {
         protected override ValidationResult IsValid (
             object value, ValidationContext validationContext) {
+
+            if (value == null)
+                return ValidationResult.Success;
+
             var _context = (AppDbContext) validationContext.GetService (typeof (AppDbContext));
             var entity = _context.Users.SingleOrDefault (e => e.Username == value.ToString ());
 
