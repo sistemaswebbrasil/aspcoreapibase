@@ -17,3 +17,9 @@ dotnet add package Pomelo.EntityFrameworkCore.MySql
 dotnet add package Pomelo.EntityFrameworkCore.MySql.Design
 dotnet add package Microsoft.EntityFrameworkCore.Tools
 ```
+
+Creating migration file after created entity
+
+```bash
+dotnet ef migrations add UserMigration
+```
