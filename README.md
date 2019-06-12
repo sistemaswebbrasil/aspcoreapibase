@@ -23,3 +23,9 @@ Creating migration file after created entity
 ```bash
 dotnet ef migrations add UserMigration
 ```
+
+Updates the database according to created migrations
+
+```bash
+dotnet ef database update
+```
