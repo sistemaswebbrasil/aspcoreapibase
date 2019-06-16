@@ -121,7 +121,9 @@ namespace Base.Controllers
         /// <summary>
         /// Update a specific entity item
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">id</param>
+        /// <param name="entity">form body</param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
