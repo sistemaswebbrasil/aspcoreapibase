@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Base.Models
 {
     [Table("users")]
-    public partial class User
+    public partial class User : BaseEntity
     {
         [Column("id")]
         public int Id { get; set; }
@@ -28,10 +28,5 @@ namespace Base.Models
         [Column("password", TypeName = "varchar(60)")]
         public string Password { get; set; }
 
-        [Column("created_at", TypeName = "datetime")]
-        public DateTime? CreatedAt { get; set; }
-
-        [Column("updated_at", TypeName = "datetime")]
-        public DateTime? UpdatedAt { get; set; }
     }
 }
