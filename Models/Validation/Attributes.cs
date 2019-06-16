@@ -1,42 +1,71 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
 using Base.Models;
 
-namespace Core.Models {
-    public class EmailUserUniqueAttribute : ValidationAttribute {
-        protected override ValidationResult IsValid (
-            object value, ValidationContext validationContext) {
-            var _context = (AppDbContext) validationContext.GetService (typeof (AppDbContext));
-            var entity = _context.Users.SingleOrDefault (e => e.Email == value.ToString ());
+namespace Core.Models
+{
+    /// <summary>
+    /// Validating if email is unique
+    /// </summary>
+    public class EmailUserUniqueAttribute : ValidationAttribute
+    {
+        /// <summary>
+        /// validate logic
+        /// </summary>
+        /// <param name="value">Email Text</param>
+        /// <param name="validationContext">Context Validation</param>
+        /// <returns>ValidationResult</returns>
+        protected override ValidationResult IsValid(
+            object value, ValidationContext validationContext)
+        {
+            var user = (User)validationContext.ObjectInstance;
+            var _context = (AppDbContext)validationContext.GetService(typeof(AppDbContext));
+            var entity = _context.Users.SingleOrDefault(e => e.Email == user.Email && e.Id != user.Id);
 
-            if (entity != null) {
-                return new ValidationResult (GetErrorMessage (value.ToString ()));
+            if (entity != null)
+            {
+                return new ValidationResult(GetErrorMessage(user.Email));
             }
             return ValidationResult.Success;
         }
 
-        public string GetErrorMessage (string email) => $"Email {email} is already in use.";
+        /// <summary>
+        /// Show Message Error
+        /// </summary>
+        /// <param name="email">Email Text</param>
+        /// <returns></returns>
+        public string GetErrorMessage(string email) => $"Email {email} is already in use.";
     }
 
-    public class UsernameUserUniqueAttribute : ValidationAttribute {
-        protected override ValidationResult IsValid (
-            object value, ValidationContext validationContext) {
+    /// <summary>
+    /// Validating if user name is unique
+    /// </summary>
+    public class UsernameUserUniqueAttribute : ValidationAttribute
+    {
+        /// <summary>
+        /// Validate logic
+        /// </summary>
+        /// <param name="value">User Name Text</param>
+        /// <param name="validationContext">Context Validation</param>
+        /// <returns>ValidationResult</returns>
+        protected override ValidationResult IsValid(
+            object value, ValidationContext validationContext)
+        {
+            var user = (User)validationContext.ObjectInstance;
 
-            if (value == null)
-                return ValidationResult.Success;
+            var _context = (AppDbContext)validationContext.GetService(typeof(AppDbContext));
+            var entity = _context.Users.SingleOrDefault(e => e.Username == user.Username && e.Id != user.Id);
 
-            var _context = (AppDbContext) validationContext.GetService (typeof (AppDbContext));
-            var entity = _context.Users.SingleOrDefault (e => e.Username == value.ToString ());
-
-            if (entity != null) {
-                return new ValidationResult (GetErrorMessage (value.ToString ()));
+            if (entity != null)
+            {
+                return new ValidationResult(GetErrorMessage(user.Username));
             }
             return ValidationResult.Success;
         }
 
-        public string GetErrorMessage (string username) => $"User name {username} is already in use.";
+        /// <summary>
+        /// Validating if user name is unique
+        /// </summary>
+        public string GetErrorMessage(string username) => $"User name {username} is already in use.";
     }
 }
