@@ -20,9 +20,9 @@ namespace Base.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public ActionResult<User> Authenticate(TokenRequest userParam)
+        public ActionResult<User> Authenticate([FromBody] TokenRequest request)
         {
-            var user = _authService.Authenticate(userParam.Email, userParam.Password);
+            var user = _authService.Authenticate(request);
 
             if (user == null)
                 return BadRequest(new { message = "Email or password is incorrect" });
@@ -39,8 +39,7 @@ namespace Base.Controllers
             if (user == null)
                 return BadRequest();
 
-            return NoContent();
-
+            return CreatedAtAction(nameof(Authenticate), user);
         }
     }
 }

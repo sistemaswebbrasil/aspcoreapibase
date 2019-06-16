@@ -10,12 +10,6 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Base.Services
 {
-    public interface IAuthServices
-    {
-        AuthUser Authenticate(string email, string password);
-        User Signup(User user);
-    }
-
     public class AuthServices : IAuthServices
     {
 
@@ -28,11 +22,10 @@ namespace Base.Services
             _context = context;
         }
 
-        public AuthUser Authenticate(string email, string password)
+        public AuthUser Authenticate(TokenRequest tokenRequest)
         {
-
-            var user = _context.Users.SingleOrDefault(x => x.Email == email);
-            if (user == null || Secret.Validate(password, user.Password) == false)
+            var user = _context.Users.SingleOrDefault(x => x.Email == tokenRequest.Email);
+            if (user == null || Secret.Validate(tokenRequest.Password, user.Password) == false)
                 return null;
 
             // authentication successful so generate jwt token
