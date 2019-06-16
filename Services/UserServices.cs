@@ -24,10 +24,9 @@ namespace Base.Services {
         }
 
         public AuthUser Authenticate (string email, string password) {
-            var user = _context.Users.SingleOrDefault (x => x.Email == email && x.Password == password);
 
-            // return null if user not found
-            if (user == null)
+            var user = _context.Users.SingleOrDefault (x => x.Email == email );
+            if (user == null || Secret.Validate(password,user.Password) == false)
                 return null;
 
             // authentication successful so generate jwt token

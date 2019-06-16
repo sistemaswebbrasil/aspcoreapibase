@@ -6,6 +6,7 @@ using Base.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Base.Helpers;
 
 namespace Base.Controllers {
     [Authorize]
@@ -63,6 +64,7 @@ namespace Base.Controllers {
         // POST: api/users
         [HttpPost]
         public async Task<ActionResult<User>> Store (User entity) {
+            entity.Password = Secret.GenerateHash(entity.Password);
             _context.Users.Add (entity);
             await _context.SaveChangesAsync ();
 
