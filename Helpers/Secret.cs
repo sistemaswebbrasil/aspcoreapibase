@@ -2,19 +2,33 @@ using CryptSharp;
 
 namespace Base.Helpers
 {
+    /// <summary>
+    /// Manage secret keys
+    /// </summary>
     public class Secret
     {
 
-        public static string GenerateHash(string value)
+        /// <summary>
+        /// Manager passwords using Blowfish Encryption , compatible with standard PHP encryption
+        /// </summary>
+        /// <param name="text">Text to be encrypted</param>
+        /// <returns></returns>
+        public static string GenerateHash(string text)
         {
-            return Crypter.Blowfish.Crypt(value, Crypter.Blowfish.GenerateSalt(10));
+            return Crypter.Blowfish.Crypt(text, Crypter.Blowfish.GenerateSalt(10));
         }
 
-        public static bool Validate(string value, string hash)
+        /// <summary>
+        /// validates the encrypted key with the decrypted key
+        /// </summary>
+        /// <param name="text">plain text</param>
+        /// <param name="hash">encrypted text</param>
+        /// <returns></returns>
+        public static bool Validate(string text, string hash)
         {
             try
             {
-                return Crypter.CheckPassword(value, hash);
+                return Crypter.CheckPassword(text, hash);
             }
             catch (System.Exception)
             {

@@ -6,18 +6,31 @@ using System.Threading.Tasks;
 
 namespace Base.Controllers
 {
+    /// <summary>
+    /// Authentication Controller
+    /// </summary>
     [Authorize]
     [Route("api/")]
     [ApiController]
+    [Produces("application/json")]
     public class AuthController : ControllerBase
     {
         private IAuthServices _authService;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="authService"></param>
         public AuthController(IAuthServices authService)
         {
             _authService = authService;
         }
 
+        /// <summary>
+        /// Authenticates the user
+        /// </summary>
+        /// <param name="request">TokenRequest is object with email and password</param>
+        /// <returns>AuthUser</returns>
         [AllowAnonymous]
         [HttpPost("login")]
         public ActionResult<User> Authenticate([FromBody] TokenRequest request)
@@ -30,6 +43,11 @@ namespace Base.Controllers
             return Ok(user);
         }
 
+        /// <summary>
+        /// Register new user in system
+        /// </summary>
+        /// <param name="userParam">User form</param>
+        /// <returns>User</returns>
         [AllowAnonymous]
         [HttpPost("sigup")]
         public ActionResult<User> Signup(User userParam)
