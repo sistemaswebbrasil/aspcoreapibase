@@ -12,7 +12,7 @@ namespace Base.Migrations
                 name: "users",
                 columns: table => new
                 {
-                    id = table.Column<uint>(nullable: false)
+                    id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     username = table.Column<string>(type: "varchar(80)", nullable: false),
                     email = table.Column<string>(type: "varchar(254)", nullable: false),

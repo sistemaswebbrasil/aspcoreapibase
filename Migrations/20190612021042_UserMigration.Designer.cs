@@ -21,7 +21,7 @@ namespace Base.Migrations
 
             modelBuilder.Entity("Base.Models.User", b =>
                 {
-                    b.Property<uint>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id");
 
