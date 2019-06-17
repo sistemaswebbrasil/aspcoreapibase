@@ -29,3 +29,15 @@ Updates the database according to created migrations
 ```bash
 dotnet ef database update
 ```
+
+Add suport Code Generator with  Microsoft.VisualStudio.Web.CodeGenerators.Mvc
+
+```bash
+dotnet add package Microsoft.VisualStudio.Web.CodeGenerators.Mvc
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
+```
+Generating an api controller
+
+```bash
+dotnet aspnet-codegenerator controller -name RoleControllers -async -api -m Role -dc AppDbContext -outDir Controllers -namespace Base.Controllers
+```
