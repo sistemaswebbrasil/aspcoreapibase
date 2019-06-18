@@ -17,30 +17,6 @@ namespace Base.Migrations
                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("Base.Models.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnName("created_at")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnName("description")
-                        .HasColumnType("varchar(80)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnName("updated_at")
-                        .HasColumnType("datetime");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("roles");
-                });
-
             modelBuilder.Entity("Base.Models.User", b =>
                 {
                     b.Property<int>("Id")
