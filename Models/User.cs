@@ -10,9 +10,6 @@ namespace Base.Models
     [Table("users")]
     public partial class User : BaseEntity
     {
-        [Column("id")]
-        public int Id { get; set; }
-
         [Required]
         [UsernameUserUnique]
         [Column("username", TypeName = "varchar(80)")]
