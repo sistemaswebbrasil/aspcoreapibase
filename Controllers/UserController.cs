@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Base.Helpers;
+using Base.Repositories;
 
 namespace Base.Controllers
 {
@@ -22,14 +23,14 @@ namespace Base.Controllers
     [ProducesResponseType(404)]
     public class UserController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IUserRepository _repository;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public UserController(AppDbContext context)
+        public UserController(IUserRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         // GET: api/users
@@ -37,10 +38,11 @@ namespace Base.Controllers
         /// Get all entity itens
         /// </summary>
         [HttpGet]
+        [AllowAnonymous]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<User>>> Index()
+        public IQueryable<User> Index()
         {
-            return await _context.Users.ToListAsync();
+            return _repository.GetAll();
         }
 
         // GET: api/users/find-by-email/teste@teste.com
@@ -54,12 +56,9 @@ namespace Base.Controllers
         [Route("find-by-email/{email}")]
         public async Task<ActionResult<User>> FindByEmail(string email)
         {
-            var entity = await _context.Users.SingleOrDefaultAsync(e => e.Email == email);
+            var entity = await _repository.FindByEmail(email);
             if (entity == null)
-            {
                 return NotFound();
-            }
-
             return entity;
         }
 
@@ -73,12 +72,11 @@ namespace Base.Controllers
         [Route("find-by-username/{username}")]
         public async Task<ActionResult<User>> FindByUsername(string username)
         {
-            var entity = await _context.Users.SingleOrDefaultAsync(e => e.Username == username);
+            var entity = await _repository.FindByUsername(username);
             if (entity == null)
             {
                 return NotFound();
             }
-
             return entity;
         }
 
@@ -91,13 +89,11 @@ namespace Base.Controllers
         [ProducesResponseType(200)]
         public async Task<ActionResult<User>> Show(int id)
         {
-            var entity = await _context.Users.FindAsync(id);
-
+            var entity = await _repository.GetById(id);
             if (entity == null)
             {
                 return NotFound();
             }
-
             return entity;
         }
 
@@ -111,9 +107,7 @@ namespace Base.Controllers
         public async Task<ActionResult<User>> Store(User entity)
         {
             entity.Password = Secret.GenerateHash(entity.Password);
-            _context.Users.Add(entity);
-            await _context.SaveChangesAsync();
-
+            await _repository.Create(entity);
             return CreatedAtAction(nameof(Show), new { id = entity.Id }, entity);
         }
 
@@ -133,10 +127,7 @@ namespace Base.Controllers
             {
                 return BadRequest();
             }
-
-            _context.Entry(entity).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-
+            await _repository.Update(id, entity);
             return NoContent();
         }
 
@@ -149,16 +140,12 @@ namespace Base.Controllers
         [ProducesResponseType(204)]
         public async Task<IActionResult> Destroy(int id)
         {
-            var entity = await _context.Users.FindAsync(id);
-
+            var entity = await _repository.GetById(id);
             if (entity == null)
             {
                 return NotFound();
             }
-
-            _context.Users.Remove(entity);
-            await _context.SaveChangesAsync();
-
+            await _repository.Delete(id);
             return NoContent();
         }
     }

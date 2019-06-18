@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Base.Helpers;
 using Base.Models;
+using Base.Repositories;
 using Base.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -70,6 +71,7 @@ namespace Base
 
             // configure DI for application services
             services.AddScoped<IAuthServices, AuthServices>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
