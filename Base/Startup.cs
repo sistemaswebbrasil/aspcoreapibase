@@ -72,6 +72,7 @@ namespace Base
             // configure DI for application services
             services.AddScoped<IAuthServices, AuthServices>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>

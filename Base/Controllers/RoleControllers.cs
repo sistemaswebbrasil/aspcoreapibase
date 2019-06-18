@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Base.Models;
+using Base.Repositories;
 
 namespace Base.Controllers
 {
@@ -13,10 +14,12 @@ namespace Base.Controllers
     public class RoleController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly IGenericRepository<Role> _repository;
 
-        public RoleController(AppDbContext context)
+        public RoleController(AppDbContext context,IGenericRepository<Role> repository)
         {
             _context = context;
+            _repository = repository;
         }
 
         // GET: api/roles
@@ -74,8 +77,9 @@ namespace Base.Controllers
         [HttpPost]
         public async Task<ActionResult<Role>> PostRole(Role role)
         {
-            _context.Roles.Add(role);
-            await _context.SaveChangesAsync();
+            // _context.Roles.Add(role);
+            // await _context.SaveChangesAsync();
+            await _repository.Create(role);
 
             return CreatedAtAction("GetRole", new { id = role.Id }, role);
         }
