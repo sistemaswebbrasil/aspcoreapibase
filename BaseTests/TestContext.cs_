@@ -1,0 +1,23 @@
+using Xunit;
+using Base.Controllers;
+
+namespace BaseTests
+{
+    public class PrimeService_IsPrimeShould
+    {
+        private readonly UserController _controller;
+
+        public PrimeService_IsPrimeShould()
+        {
+            _controller = new UserController();
+        }
+
+        [Fact]
+        public void ReturnFalseGivenValueOf1()
+        {
+            var result = _controller.Index();
+
+            Assert.False(result.le, "1 should not be prime");
+        }
+    }
+}

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Base.Models;
 using Base.Repositories;
+using Base.Services;
 
 namespace Base.Controllers
 {
@@ -13,33 +14,30 @@ namespace Base.Controllers
     [ApiController]
     public class RoleController : ControllerBase
     {
-        private readonly AppDbContext _context;
-        private readonly IGenericRepository<Role> _repository;
+        private readonly IRoleService _service;
 
-        public RoleController(AppDbContext context,IGenericRepository<Role> repository)
+        public RoleController(IRoleService service)
         {
-            _context = context;
-            _repository = repository;
+
+            _service = service;
         }
 
         // GET: api/roles
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Role>>> GetRoles()
+        public IQueryable<Role> GetRoles()
         {
-            return await _context.Roles.ToListAsync();
+            return _service.FindAll();
         }
 
         // GET: api/roles/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Role>> GetRole(int id)
         {
-            var role = await _context.Roles.FindAsync(id);
-
+            var role = await _service.FindById(id);
             if (role == null)
             {
                 return NotFound();
             }
-
             return role;
         }
 
@@ -51,25 +49,7 @@ namespace Base.Controllers
             {
                 return BadRequest();
             }
-
-            _context.Entry(role).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RoleExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
+            await _service.Update(id, role);
             return NoContent();
         }
 
@@ -77,32 +57,21 @@ namespace Base.Controllers
         [HttpPost]
         public async Task<ActionResult<Role>> PostRole(Role role)
         {
-            // _context.Roles.Add(role);
-            // await _context.SaveChangesAsync();
-            await _repository.Create(role);
-
+            await _service.Create(role);
             return CreatedAtAction("GetRole", new { id = role.Id }, role);
         }
 
         // DELETE: api/roles/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Role>> DeleteRole(int id)
+        public async Task<ActionResult> DeleteRole(int id)
         {
-            var role = await _context.Roles.FindAsync(id);
+            var role = await _service.FindById(id);
             if (role == null)
             {
                 return NotFound();
             }
-
-            _context.Roles.Remove(role);
-            await _context.SaveChangesAsync();
-
-            return role;
-        }
-
-        private bool RoleExists(int id)
-        {
-            return _context.Roles.Any(e => e.Id == id);
+            await _service.Delete(id);
+            return NoContent();
         }
     }
 }

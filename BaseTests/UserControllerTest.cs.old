@@ -1,0 +1,31 @@
+using Base.Controllers;
+using Base.Repositories;
+using Microsoft.AspNetCore.Mvc;
+using Xunit;
+
+namespace BaseTests
+{
+    public class UserControllerTest
+    {
+
+        UserController _controller;
+        IUserRepository _repository;
+
+        public UserControllerTest()
+        {
+            _repository = new UserRepositoryFake();
+            _controller = new UserController(_repository);
+        }
+
+        [Fact]
+        public void Get_WhenCalled_ReturnsOkResult()
+        {
+            // Act
+            var okResult = _controller.Index();
+
+            // Assert
+            Assert.IsType<OkObjectResult>(okResult);
+        }
+
+    }
+}
