@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Base.Controllers;
 using Base.Models;
@@ -18,29 +19,24 @@ namespace BaseTests
             _controller = new RoleController(_service);
         }
 
-        // [Fact]
-        // public void Get_WhenCalled_ReturnsOkResult()
-        // {
-        //     // Act
-        //     var okResult = _controller.GetRoles();
+        [Fact]
+        public void Get_WhenCalled_ReturnsOkResult()
+        {
+            // Act
+            var okResult = _controller.GetRoles();
 
-        //     // Assert
-        //     Assert.IsType<OkObjectResult>(okResult);
-        // }
+            // Assert
+            Assert.IsType<Role>(okResult.ToArray()[0]);
+        }
 
         [Fact]
         public void Get_WhenCalled_ReturnsAllItems()
         {
             // Act
-            var okResult = _controller.GetRoles() as OkObjectResult;
+            var okResult = _controller.GetRoles();
 
-
-            var items = okResult;
-
-            // Assert.Collection(okResult);
             // Assert
-            // Assert.Equal(3, items );
+            Assert.True(okResult.Count() > 0);
         }
-
     }
 }
