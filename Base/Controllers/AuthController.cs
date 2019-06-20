@@ -15,15 +15,15 @@ namespace Base.Controllers
     [Produces("application/json")]
     public class AuthController : ControllerBase
     {
-        private IAuthServices _authService;
+        private IAuthServices _service;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="authService"></param>
-        public AuthController(IAuthServices authService)
+        /// <param name="service"></param>
+        public AuthController(IAuthServices service)
         {
-            _authService = authService;
+            _service = service;
         }
 
         /// <summary>
@@ -33,9 +33,9 @@ namespace Base.Controllers
         /// <returns>AuthUser</returns>
         [AllowAnonymous]
         [HttpPost("login")]
-        public ActionResult<User> Authenticate([FromBody] TokenRequest request)
+        public async Task<ActionResult<User>> Authenticate([FromBody] TokenRequest request)
         {
-            var user = _authService.Authenticate(request);
+            var user = await _service.Authenticate(request);
 
             if (user == null)
                 return BadRequest(new { message = "Email or password is incorrect" });
@@ -46,18 +46,14 @@ namespace Base.Controllers
         /// <summary>
         /// Register new user in system
         /// </summary>
-        /// <param name="userParam">User form</param>
+        /// <param name="user">User form</param>
         /// <returns>User</returns>
         [AllowAnonymous]
         [HttpPost("sigup")]
-        public ActionResult<User> Signup(User userParam)
+        public async Task<ActionResult<User>> Signup(User user)
         {
-            var user = _authService.Signup(userParam);
-
-            if (user == null)
-                return BadRequest();
-
-            return CreatedAtAction(nameof(Authenticate), user);
+            await _service.Signup(user);
+            return CreatedAtAction("Authenticate", user);
         }
     }
 }

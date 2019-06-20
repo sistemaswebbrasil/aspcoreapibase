@@ -1,8 +1,8 @@
 using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using Base.Helpers;
 using Base.Models;
 using Microsoft.Extensions.Options;
@@ -14,17 +14,17 @@ namespace Base.Services
     {
 
         private readonly AppSetting _appSettings;
-        private readonly AppDbContext _context;
+        private readonly IUserService _service;
 
-        public AuthServices(IOptions<AppSetting> appSettings, AppDbContext context)
+        public AuthServices(IOptions<AppSetting> appSettings, IUserService service)
         {
             _appSettings = appSettings.Value;
-            _context = context;
+            _service = service;
         }
 
-        public AuthUser Authenticate(TokenRequest tokenRequest)
+        public async Task<AuthUser> Authenticate(TokenRequest tokenRequest)
         {
-            var user = _context.Users.SingleOrDefault(x => x.Email == tokenRequest.Email);
+            var user = await _service.FindByEmail(tokenRequest.Email);
             if (user == null || Secret.Validate(tokenRequest.Password, user.Password) == false)
                 return null;
 
@@ -46,11 +46,10 @@ namespace Base.Services
             return authUser;
         }
 
-        public User Signup(User userForm)
+        public async Task<User> Signup(User userForm)
         {
             userForm.Password = Secret.GenerateHash(userForm.Password);
-            _context.Users.Add(userForm);
-            _context.SaveChanges();
+            await _service.Store(userForm);
             return userForm;
         }
     }
