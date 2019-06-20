@@ -29,6 +29,47 @@
             <param name="userParam">User form</param>
             <returns>User</returns>
         </member>
+        <member name="T:Base.Controllers.GenericController`1">
+            <summary>
+            Generic controller class
+            </summary>
+            <typeparam name="TEntity">Entities that implement ITrackable</typeparam>
+        </member>
+        <member name="M:Base.Controllers.GenericController`1.Index">
+            <summary>
+            List the entity records
+            </summary>
+            <returns>json array</returns>
+        </member>
+        <member name="M:Base.Controllers.GenericController`1.Show(System.Int32)">
+            <summary>
+            Show the entity record by id
+            </summary>
+            <param name="id">entity id</param>
+            <returns></returns>
+        </member>
+        <member name="M:Base.Controllers.GenericController`1.Store(`0)">
+            <summary>
+            Store the submitted record
+            </summary>
+            <param name="entity">Entity sent</param>
+            <returns></returns>
+        </member>
+        <member name="M:Base.Controllers.GenericController`1.Update(System.Int32,`0)">
+            <summary>
+            Update the entity record with the new content
+            </summary>
+            <param name="id">entity id</param>
+            <param name="entity">Entity sent</param>
+            <returns></returns>
+        </member>
+        <member name="M:Base.Controllers.GenericController`1.Destroy(System.Int32)">
+            <summary>
+            Destroy the entity record
+            </summary>
+            <param name="id">entity id</param>
+            <returns></returns>
+        </member>
         <member name="T:Base.Controllers.UserController">
             <summary>
             Users Controller
@@ -100,6 +141,26 @@
             <param name="text">plain text</param>
             <param name="hash">encrypted text</param>
             <returns></returns>
+        </member>
+        <member name="T:Base.Models.Role">
+            <summary>
+            Role entity - Permissions rules group
+            </summary>
+        </member>
+        <member name="T:Base.Models.Todo">
+            <summary>
+            Entity Todo - Tasks to be executed
+            </summary>
+        </member>
+        <member name="T:Base.Models.User">
+            <summary>
+            User Entity - Users are used to authenticate in the system
+            </summary>
+        </member>
+        <member name="T:TokenRequest">
+            <summary>
+            Data to be sent for authentication
+            </summary>
         </member>
         <member name="T:Core.Models.EmailUserUniqueAttribute">
             <summary>

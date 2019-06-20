@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Base.Models
 {
+    /// <summary>
+    /// Role entity - Permissions rules group
+    /// </summary>
     [Table("roles")]
     public class Role : BaseEntity
     {

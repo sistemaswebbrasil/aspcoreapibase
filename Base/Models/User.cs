@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Base.Models
 {
+    /// <summary>
+    /// User Entity - Users are used to authenticate in the system
+    /// </summary>
     [Table("users")]
     public partial class User : BaseEntity
     {

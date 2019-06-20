@@ -42,7 +42,7 @@ namespace BaseTests
 
         public async Task<Role> FindById(int id)
         {
-            await Task.Delay(1000);
+            await Task.Delay(1);
             return _roles.Where(a => a.Id == id)
                     .FirstOrDefault();
         }

@@ -1,5 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
+/// <summary>
+/// Data to be sent for authentication
+/// </summary>
 public class TokenRequest
 {
     [Required]

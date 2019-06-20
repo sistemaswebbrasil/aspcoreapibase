@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Base.Controllers;
 using Base.Helpers;
 using Base.Models;
 using Base.Repositories;
@@ -73,8 +74,10 @@ namespace Base
             services.AddScoped<IAuthServices, AuthServices>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleService,RoleService>();
+            // configure DI for application generic services
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-
+            services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
+            services.AddScoped(typeof(IGenericController<>), typeof(GenericController<>));
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>

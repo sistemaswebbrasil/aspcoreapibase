@@ -21,6 +21,7 @@ namespace Base.Models
 
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<Todo> Todos { get; set; }
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
