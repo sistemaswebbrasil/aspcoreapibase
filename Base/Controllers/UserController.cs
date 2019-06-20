@@ -1,18 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Base.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Base.Helpers;
 using Base.Repositories;
+using Base.Services;
 
 namespace Base.Controllers
 {
-
-
     /// <summary>
     /// Users Controller
     /// </summary>
@@ -21,28 +15,21 @@ namespace Base.Controllers
     [ApiController]
     [Produces("application/json")]
     [ProducesResponseType(404)]
-    public class UserController : ControllerBase
+    public class UserController : GenericController<User>
     {
         private readonly IUserRepository _repository;
+        // private readonly IGenericService<User> _service;
+        private readonly IUserService _service;
+
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public UserController(IUserRepository repository)
+        // public UserController(IGenericService<User> service, IUserRepository repository) : base(service)
+        public UserController(IUserService service, IUserRepository repository) : base(service)
         {
+            _service = service;
             _repository = repository;
-        }
-
-        // GET: api/users
-        /// <summary>
-        /// Get all entity itens
-        /// </summary>
-        [HttpGet]
-        [AllowAnonymous]
-        [ProducesResponseType(200)]
-        public IQueryable<User> Index()
-        {
-            return _repository.GetAll();
         }
 
         // GET: api/users/find-by-email/teste@teste.com
@@ -56,10 +43,19 @@ namespace Base.Controllers
         [Route("find-by-email/{email}")]
         public async Task<ActionResult<User>> FindByEmail(string email)
         {
-            var entity = await _repository.FindByEmail(email);
+            // var entity = await _repository.FindByEmail(email);
+            // if (entity == null)
+            //     return NotFound();
+            // return entity;
+
+            var entity = await _service.FindByEmail(email);
             if (entity == null)
+            {
                 return NotFound();
+            }
             return entity;
+
+
         }
 
         // GET: api/users/find-by-username/teste
@@ -78,75 +74,6 @@ namespace Base.Controllers
                 return NotFound();
             }
             return entity;
-        }
-
-        // GET: api/users/5
-        /// <summary>
-        /// Get a specific entity item
-        /// </summary>
-        /// <param name="id"></param>
-        [HttpGet("{id}")]
-        [ProducesResponseType(200)]
-        public async Task<ActionResult<User>> Show(int id)
-        {
-            var entity = await _repository.GetById(id);
-            if (entity == null)
-            {
-                return NotFound();
-            }
-            return entity;
-        }
-
-        // POST: api/users
-        /// <summary>
-        /// Create a specific entity item
-        /// </summary>
-        [HttpPost]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
-        public async Task<ActionResult<User>> Store(User entity)
-        {
-            entity.Password = Secret.GenerateHash(entity.Password);
-            await _repository.Create(entity);
-            return CreatedAtAction(nameof(Show), new { id = entity.Id }, entity);
-        }
-
-        // PUT: api/users/5
-        /// <summary>
-        /// Update a specific entity item
-        /// </summary>
-        /// <param name="id">id</param>
-        /// <param name="entity">form body</param>
-        /// <returns></returns>
-        [HttpPut("{id}")]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(400)]
-        public async Task<IActionResult> Update(int id, User entity)
-        {
-            if (id != entity.Id)
-            {
-                return BadRequest();
-            }
-            await _repository.Update(id, entity);
-            return NoContent();
-        }
-
-        // DELETE: api/users/5
-        /// <summary>
-        /// Deletes a specific entity item
-        /// </summary>
-        /// <param name="id"></param>
-        [HttpDelete("{id}")]
-        [ProducesResponseType(204)]
-        public async Task<IActionResult> Destroy(int id)
-        {
-            var entity = await _repository.GetById(id);
-            if (entity == null)
-            {
-                return NotFound();
-            }
-            await _repository.Delete(id);
-            return NoContent();
         }
     }
 }

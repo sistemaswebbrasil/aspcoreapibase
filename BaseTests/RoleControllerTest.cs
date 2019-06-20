@@ -11,7 +11,7 @@ namespace BaseTests
     public class RoleControllerTest
     {
         RoleController _controller;
-        IRoleService _service;
+        IGenericService<Role> _service;
 
         public RoleControllerTest()
         {

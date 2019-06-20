@@ -73,7 +73,8 @@ namespace Base
             // configure DI for application services
             services.AddScoped<IAuthServices, AuthServices>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IRoleService,RoleService>();
+            services.AddScoped<IUserService, UserService>();
+
             // configure DI for application generic services
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
