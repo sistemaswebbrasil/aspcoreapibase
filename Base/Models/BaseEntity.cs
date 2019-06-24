@@ -9,7 +9,8 @@ namespace Base.Models
         int Id { get; set; }
         DateTime? CreatedAt { get; set; }
         DateTime? UpdatedAt { get; set; }
-
+        int CreatedBy { get; set; }
+        int UpdatedBy { get; set; }
     }
     public abstract class BaseEntity : ITrackable
     {
@@ -21,5 +22,11 @@ namespace Base.Models
 
         [Column("updated_at", TypeName = "datetime")]
         public DateTime? UpdatedAt { get; set; }
+
+        [Column("created_by")]
+        public int CreatedBy { get; set; }
+
+        [Column("updated_by")]
+        public int UpdatedBy { get ; set; }
     }
 }

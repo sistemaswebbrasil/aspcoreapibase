@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,10 +11,12 @@ namespace Base.Models
     public partial class AppDbContext : DbContext
     {
         public AppDbContext() { }
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration configuration) : base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration configuration, IHttpContextAccessor httpContextAccessor) : base(options)
         {
             Configuration = configuration;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public IConfiguration Configuration { get; }
@@ -41,14 +45,19 @@ namespace Base.Models
                 if (entry.Entity is ITrackable trackable)
                 {
                     var now = DateTime.UtcNow;
+                    var claimsIdentity = _httpContextAccessor.HttpContext.User.Identity as ClaimsIdentity;
+                    var userId = Convert.ToInt32(claimsIdentity.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
                     switch (entry.State)
                     {
                         case EntityState.Modified:
                             trackable.UpdatedAt = now;
+                            trackable.UpdatedBy = userId;
                             break;
 
                         case EntityState.Added:
                             trackable.CreatedAt = now;
+                            trackable.CreatedBy = userId;
                             break;
                     }
                 }
