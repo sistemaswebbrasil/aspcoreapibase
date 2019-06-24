@@ -103,6 +103,20 @@ namespace Base
             });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            // Change validation failure status from 400 to 422
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    var result = new UnprocessableEntityObjectResult(context.ModelState);
+
+                    result.ContentTypes.Add("application/json");
+                    result.ContentTypes.Add("application/xml");
+
+                    return result;
+                };
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
