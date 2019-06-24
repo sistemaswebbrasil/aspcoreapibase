@@ -1,8 +1,8 @@
+using Base.Models;
+using Base.Services;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Base.Services;
-using Base.Models;
 
 namespace Base.Controllers
 {

@@ -1,9 +1,9 @@
 
 
-using Microsoft.AspNetCore.Mvc;
 using Base.Models;
 using Base.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Base.Controllers
 {

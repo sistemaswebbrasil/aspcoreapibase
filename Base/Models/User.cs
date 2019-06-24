@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Core.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Core.Models;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Base.Models
 {

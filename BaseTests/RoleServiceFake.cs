@@ -1,8 +1,8 @@
+using Base.Models;
+using Base.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Base.Models;
-using Base.Services;
 
 namespace BaseTests
 {

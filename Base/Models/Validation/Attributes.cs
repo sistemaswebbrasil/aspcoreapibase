@@ -1,6 +1,6 @@
+using Base.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using Base.Models;
 
 namespace Core.Models
 {

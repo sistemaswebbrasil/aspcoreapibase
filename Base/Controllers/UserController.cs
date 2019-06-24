@@ -1,9 +1,9 @@
-using System.Threading.Tasks;
 using Base.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Base.Repositories;
 using Base.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Base.Controllers
 {

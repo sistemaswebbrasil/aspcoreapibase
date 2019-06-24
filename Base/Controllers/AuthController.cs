@@ -1,7 +1,8 @@
 using Base.Models;
 using Base.Services;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Base.Controllers
@@ -54,6 +55,21 @@ namespace Base.Controllers
         {
             await _service.Signup(user);
             return CreatedAtAction("Authenticate", user);
+        }
+
+        /// <summary>
+        /// Showing user data logged in
+        /// </summary>
+        /// <returns>AuthUser</returns>
+        [HttpGet("profile")]
+        public async Task<ActionResult<AuthUser>> Profile()
+        {   
+            AuthUser authUser = await _service.profile();
+            if (authUser == null)
+            {
+                return Unauthorized();
+            }
+            return authUser;
         }
     }
 }

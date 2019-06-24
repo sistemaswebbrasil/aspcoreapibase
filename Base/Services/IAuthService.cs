@@ -1,5 +1,6 @@
-using System.Threading.Tasks;
 using Base.Models;
+using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 namespace Base.Services
 {
 
@@ -7,5 +8,6 @@ namespace Base.Services
     {
         Task<User> Signup(User user);
         Task<AuthUser> Authenticate(TokenRequest tokenRequest);
+        Task<AuthUser> profile();        
     }
 }

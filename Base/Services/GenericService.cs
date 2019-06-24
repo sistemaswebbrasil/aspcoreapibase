@@ -1,7 +1,7 @@
-using System.Linq;
-using System.Threading.Tasks;
 using Base.Models;
 using Base.Repositories;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Base.Services
 {

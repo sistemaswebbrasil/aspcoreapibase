@@ -1,9 +1,8 @@
-using System;
-using System.Linq;
 using Base.Controllers;
 using Base.Models;
 using Base.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using Xunit;
 
 namespace BaseTests

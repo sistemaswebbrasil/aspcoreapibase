@@ -16,7 +16,7 @@ namespace Base.Models
         [Column("description", TypeName = "varchar(255)")]
         public string Description { get; set; }
 
-        [Column("IsComplete",TypeName = "bit")]
+        [Column("IsComplete", TypeName = "bit")]
         public bool IsComplete { get; set; }
     }
 }

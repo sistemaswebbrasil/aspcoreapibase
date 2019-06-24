@@ -1,7 +1,6 @@
-using System.Linq;
-using System.Threading.Tasks;
 using Base.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Base.Repositories
 {
