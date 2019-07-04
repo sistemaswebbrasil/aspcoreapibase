@@ -8,6 +8,8 @@ namespace Base.Services
     {
         Task<User> Signup(User user);
         Task<AuthUser> Authenticate(TokenRequest tokenRequest);
-        Task<AuthUser> profile();        
+        Task<AuthUser> profile();
+        Task<bool> UsernameAvailable(string username);
+        Task<bool> EmailAvailable(string email);
     }
 }

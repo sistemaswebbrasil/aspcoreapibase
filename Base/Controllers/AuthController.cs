@@ -71,5 +71,25 @@ namespace Base.Controllers
             }
             return authUser;
         }
+
+        [HttpGet]
+        [ProducesResponseType(200)]
+        [AllowAnonymous]
+        [Route("username-available/{username}")]
+        public async Task<ActionResult<object>> UsernameAvailable(string username)
+        {
+            var avaliable = await _service.UsernameAvailable(username);
+            return Ok(new { avaliable = avaliable });
+        }
+
+        [HttpGet]
+        [ProducesResponseType(200)]
+        [AllowAnonymous]
+        [Route("email-available/{email}")]
+        public async Task<ActionResult<bool>> EmailAvailable(string email)
+        {
+            var avaliable = await _service.EmailAvailable(email);
+            return Ok(new { avaliable = avaliable });
+        }
     }
 }

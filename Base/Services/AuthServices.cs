@@ -72,5 +72,21 @@ namespace Base.Services
             await _service.Store(userForm);
             return userForm;
         }
+
+        public async Task<bool> UsernameAvailable(string username)
+        {
+            var user = await _service.FindByUsername(username);
+            if (user == null)
+                return true;
+            return false;
+        }
+
+        public async Task<bool> EmailAvailable(string email)
+        {
+            var user = await _service.FindByEmail(email);
+            if (user == null)
+                return true;
+            return false;
+        }
     }
 }
