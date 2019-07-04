@@ -50,7 +50,7 @@ namespace Base.Controllers
         /// <param name="user">User form</param>
         /// <returns>User</returns>
         [AllowAnonymous]
-        [HttpPost("sigup")]
+        [HttpPost("signup")]
         public async Task<ActionResult<User>> Signup(User user)
         {
             await _service.Signup(user);
@@ -63,7 +63,7 @@ namespace Base.Controllers
         /// <returns>AuthUser</returns>
         [HttpGet("profile")]
         public async Task<ActionResult<AuthUser>> Profile()
-        {   
+        {
             AuthUser authUser = await _service.profile();
             if (authUser == null)
             {
