@@ -38,8 +38,8 @@ namespace Base.Controllers
         {
             var user = await _service.Authenticate(request);
 
-            if (user == null)
-                return BadRequest(new { message = "Email or password is incorrect" });
+            if (user == null)                
+                return Unauthorized(new { message = "Email or password is incorrect" });
 
             return Ok(user);
         }
